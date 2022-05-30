@@ -15,7 +15,7 @@ subplot(311)
 plot(f,2*abs(Y(1:NFFT/2+1))) 
 title('Amplitude Spectrum of Noise-free Signal')
 xlabel('Frequency (Hz)')
-toRead = strcat('songHighNoise/', num2str(i),'Noise.mat')
+toRead = strcat('songHighNoise1/', num2str(i),'Noise.mat')
 load(toRead, '-mat');
 y = y(:,1);
 y = resample(y,new_Fs,Fs);

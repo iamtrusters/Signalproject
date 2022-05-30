@@ -1,6 +1,7 @@
 function songID = mainabc123(y, Fs) % It is a sample code
-    load('hashTable_2.mat', 'hashTable')
-    table = make_table(y, Fs);
+    min_gs = 5; max_gs=20;n_seg=4; deltaTL = 3; deltaTU = 6; deltaF  = 9;
+    load('hashTable_52_seg.mat', 'hashTable')
+    table = make_table(y, min_gs,max_gs, n_seg, deltaTL, deltaTU, deltaF, Fs);
 
     clipHash = hash(table);
     matchMatrix = [];% [t_0 songID]
