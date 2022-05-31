@@ -1,6 +1,6 @@
-function songID = mainabc123(y, Fs) % It is a sample code
-    min_gs = 5; max_gs=20;n_seg=4; deltaTL = 3; deltaTU = 6; deltaF  = 9;
-    load('hashTable_52_seg.mat', 'hashTable')
+function songID = mainabc123(y, Fs, t) % It is a sample code
+    min_gs = 7; max_gs=21;n_seg=3; deltaTL = 1; deltaTU = 3; deltaF  = 30;
+    load('hashTable_52_segd13_gs7x3_35.mat', 'hashTable')
     table = make_table(y, min_gs,max_gs, n_seg, deltaTL, deltaTU, deltaF, Fs);
 
     clipHash = hash(table);
@@ -15,6 +15,7 @@ function songID = mainabc123(y, Fs) % It is a sample code
     else
         confidence = frequency(2)/length(matchMatrix);
         confidenceThreshold = 1/20;
+%         confidenceThreshold = 1/(7+10*t);
         minimumFrequencies = 100;
         if confidence > confidenceThreshold & frequency(2)>minimumFrequencies
             songID = mode(matchMatrix(find(matchMatrix(:,1) == modeValue(1)),2))

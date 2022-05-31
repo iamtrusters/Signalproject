@@ -2,7 +2,7 @@ clear all
 
 numOfSongs = 50; %
 
-withNoise = 0;
+withNoise = 1;
 
 if withNoise
     SONGDIR = 'songHighNoise1/';
@@ -12,7 +12,7 @@ else
     EXT = '.mat';
 end
 
-load 'hashTable_52_seg.mat'
+load 'hashTable_52_segd13_35.mat'
 disp('Done')
 
 
@@ -20,7 +20,7 @@ load('clipInfo.mat');
 %     load('1clipNoiseInfo.mat')
 
 
-songID_test = 43;
+songID_test = 15;
 
 
 %     toRead = strcat('../../songDatabase/', num2str(i),'.mat');

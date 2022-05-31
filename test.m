@@ -13,13 +13,13 @@ else
 end
 
 try
-    load 'hashTable_52_seg.mat'
+    load 'hashTable_52_segd13_gs7x3_35.mat';
 catch
-    disp('Updating hashTable ...')
-    min_gs = 5; max_gs=20; n_seg=4; deltaTL = 3; deltaTU = 6; deltaF  = 9;
+    disp('Updating hashTable ...');
+    min_gs = 7; max_gs=21; n_seg=3; deltaTL = 1; deltaTU = 3; deltaF  = 30;
     hashTable = make_database123(min_gs,max_gs, n_seg ,deltaTL,deltaTU,deltaF, numOfSongs);
-    save('hashTable_52_seg.mat', 'hashTable')
-    disp('Done')
+    save('hashTable_52_segd13_gs7x3_35.mat', 'hashTable');
+    disp('Done');
 end
 
 % Setting initial times
@@ -60,7 +60,7 @@ for i = 1:numOfSongs
             break
         end
         yInput = y((initialTime(i)*Fs:initialTime(i)*Fs +  timeTaken(i)*Fs), :);
-        songID(i) = mainabc123(yInput, Fs); 
+        songID(i) = mainabc123(yInput, Fs, timeTaken(i)); 
         % Your code will be used here instead of abc123
         %         songID(i) = i;
     end

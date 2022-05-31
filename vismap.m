@@ -1,17 +1,21 @@
 function songID = vismap(y, songID_test, Fs) % It is a sample code
-    min_gs = 5; max_gs = 20; n_seg=4; deltaTL = 3; deltaTU = 6; deltaF  = 9;
-    load('hashTable_54.mat', 'hashTable')
+    min_gs = 5; max_gs = 20; n_seg=4; deltaTL = 1; deltaTU = 3; deltaF  = 30;
+    load('hashTable_52_segd13_35.mat', 'hashTable');
+    
+%     cutoff_frequency = 3000;
+%     Wp = cutoff_frequency/Fs*2;
+%     [b1,a1] = butter(6,Wp,'low');
     y = y(:,1);
+%     y = filter(b1,a1,y);
     new_Fs = 8000;
     resampledSong = resample(y,new_Fs,Fs);
 
 
-    window = new_Fs * 54*10^-3;
+    window = new_Fs * 52*10^-3;
     noverlap = new_Fs * 32*10^-3;
     nfft = window;
     [S,F,T] = spectrogram(resampledSong,window,noverlap,nfft,new_Fs);
     log_S = log10(abs(S)+1);
-%     
     spec_map = figure();
     set(spec_map, "Visible", "off");
     imagesc(T,F,20*log10(abs(S)));
@@ -20,10 +24,10 @@ function songID = vismap(y, songID_test, Fs) % It is a sample code
     ylabel('Frequency (kHz)')
     title('Spectrogram')
     colormap jet
-    c= colorbar;
+    c=colorbar;
     set(c);
     ylabel(c,'Power (dB)','FontSize',14);
-    saveas(spec_map, strcat("error_analysis/spectrogram_id", num2str(songID_test), "_54.png"));
+    saveas(spec_map, strcat("error_analysis/2Adaptive-spectrogram_id", num2str(songID_test), "_52NoiseNoFilter.png"));
 
     length_freq = floor(size(log_S,1)/n_seg);
     localPeakLocation = ones(size(log_S));
@@ -49,7 +53,7 @@ function songID = vismap(y, songID_test, Fs) % It is a sample code
     end
 
     localPeakValues = log_S .* localPeakLocation;
-    desiredNumPeaks = ceil(T(end)) * 25;% time(second) * 30 peaks/second
+    desiredNumPeaks = ceil(T(end)) * 35;% time(second) * 30 peaks/second
     sortedLocalPeak = sort(localPeakValues(:),'descend');
     peaks = sortedLocalPeak(1:desiredNumPeaks);
     threshold = (peaks(end));
@@ -64,11 +68,11 @@ function songID = vismap(y, songID_test, Fs) % It is a sample code
     ylabel("Frequency (bin)");
     title("Constellation Map");
     hold on;
-    tz = min(300,length(timeLocation));
-    fz = min(300,length(freqLocation));
-    scatter(timeLocation(1:tz), freqLocation(1:fz), "black", "x");
+%     tz = min(300,length(timeLocation));
+%     fz = min(300,length(freqLocation));
+    scatter(timeLocation, freqLocation, "black", "x");
     hold off;
-    saveas(cs_map, strcat('error_analysis/AdaptiveConstellation_id',num2str(songID_test), '_54.png'));
+    saveas(cs_map, strcat('error_analysis/2AdaptiveConstellation_id',num2str(songID_test), '_52Noise.png'));
     fanOut = 3;
     table = [];
 

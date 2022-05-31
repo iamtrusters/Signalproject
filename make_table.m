@@ -1,9 +1,13 @@
 function table = make_table(y,min_gs, max_gs, n_seg, deltaTL, deltaTU, deltaF, Fs)
     
-
+    cutoff_frequency = 3000;
+    Wp = cutoff_frequency/Fs*2;
+    [b1,a1] = butter(10,Wp,'low');
     y = y(:,1);
+    y = filter(b1,a1,y);
     new_Fs = 8000;
     resampledSong = resample(y,new_Fs,Fs);
+    
 
 
     window = new_Fs * 52*10^-3;
@@ -63,7 +67,7 @@ function table = make_table(y,min_gs, max_gs, n_seg, deltaTL, deltaTU, deltaF, F
 
 
     localPeakValues = log_S .* localPeakLocation;
-    desiredNumPeaks = ceil(T(end)) * 25;% time(second) * 30 peaks/second
+    desiredNumPeaks = ceil(T(end)) * 35;% time(second) * 30 peaks/second
     sortedLocalPeak = sort(localPeakValues(:),'descend');
     peaks = sortedLocalPeak(1:desiredNumPeaks);
     threshold = (peaks(end));
